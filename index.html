@@ -1,259 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snek Game</title>
-    <style>
-        body {
-            margin:0;
-            padding: 0px;
-            background-color: #444;
-        }
-        
-        canvas {
-            width: 95vw;
-            background-color: #000;
-            display: block;
-            margin: 2vw auto;
-            padding: 1vw;
-            border-radius: 2vh;
-        }
-
-        #controls {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        button {
-            font-size: 7vw;
-            padding: 5vw 5vw;
-            margin: 0 auto;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 5vw;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #2980b9;
-        }
-
-        #up {
-            margin: 2vw auto;
-            display: block;
-        }
-        .game-over{
-          margin:auto;
-          margin-top:40vh;
-          display:non;
-          background:none;
-          width :95vw;
-          text-align:center;
-        }
-      #restart{
-        width:50vw;
-        height:5h;
-        padding:0px;
-        background:gray;
-        transition:2s;
-        animation: pulse 2s infinite;
-        
-      }
-      @keyframes pulse{
-        0%{
-          transition: 2s;
-          transform:scale(1.2) ;
-        }
-        50%{
-          transition: 2s;
-          
-          transform:scale(1.4) ;
-        }
-       100%{
-          transition: 2s;
-          transform:scale(1.2) ;
-          
-        } 
-      }
-      h1{
-        
-        color:red;
-      }
-      #juego{
-        display: none;
-      }
-    </style>
+    <title>Coderhub</title>
 </head>
-<body> 
-<header id="juego">
-      <canvas id="snek" width="400" height="400"></canvas>
-          <div id="controls">
-        <button id="up">↑</button>
-        <button id="left">←</button>
-        <button id="down">↓</button>
-        <button id="right">→</button>
-    </div>
+<style>
+  body{
+    padding: 0px;
+    margin: 0px;
+   background:linear-gradient(150deg, #457272,cyan,blue); 
+   background-repeat:no-repeat;
+       background-size: cover;
+   user-select: none; 
+    background-attachment: fixed; 
+    background-position: center center;
+    
+  }
+.caja{
+  width: 100vw;
+  height: 7vh;
+  display: block;
+  text-align: center;
+  background:rgba(223,223,223,0.3);
+  backdrop-filter: blur(10vw);
+  position: sticky;
+  top:0;
+  box-shadow: 0 0 1.5vh;
+  margin-bottom:14vh;
+  z-index: 2;
+}
+
+.titulo{
+  padding: 3vw;
+  margin: 0vw;
+  color:cyan ;
+}
+.titulo2{
+  padding: 3vw;
+  margin: 0px;
+  color:gray;
+  position: sticky;
+  top:0;
+}
+ 
+  
+  .comunicativos{
+    transition: 2s;
+    color:blue;
+  }
+  .container{
+  width: 70vw;
+  height: 7vh;
+  display: block;
+  text-align: center;
+background:rgba(122,122,122,0.3);
+  backdrop-filter: blur(10vw);
+  position: sticky;
+  top:0;
+  transition: 2s;
+  margin: 3vw auto;
+  border-radius: 2.5vw;
+  box-shadow: 0 0 1.5vw blue;
+  overflow:auto;
+  z-index: 1;
+  
+}
+
+.container:hover .titulo2 {
+  opacity: 0;
+  transition: 2s;
+  position: sticky;
+  top:0;
+}
+.container .texto{
+  opacity: 0;
+  transition: 2s;
+}
+.container:hover .texto{
+  opacity: 1;
+  transition: 2s;
+}
+.container .pregunta{
+  opacity: 0;
+  transition: 2s;
+}
+.container:hover .pregunta{
+  opacity: 1;
+  transition: 2s;
+}
+.container:hover {
+  width: 90vw;
+  height: 80vw;
+  padding: 3vw;
+  opacity: 1;
+  transition: 2s;
+  height: 70vh;
+  box-shadow: none;
+  
+}
+.texto{
+  text-align:left;
+}
+.pregunta{
+  font-size: 4vw;
+  color: blue;
+  margin: 0vw;
+  padding: 0px;
+}
+.menu{
+  height: 6vw;
+  width: 93vw;
+  padding: 1.5vh;
+  background:linear-gradient(160deg, blue,cyan);
+  margin: 2vh;
+  margin-top: 3vh;
+  transition: 2s;
+  transform: translate(-87.5vw);
+  border-radius: 4vw;
+  
+}
+
+.menu:hover{
+  
+  transition: 2s;
+  transform:translate(0vw);
+  position: sticky;
+  height: 6vw;
+  top:0;
+  
+  margin: 3vw;
+  width: 87vw;
+  display: block;
+  text-align: center;
+  margin-top: 3vh;
+}
+.menu:hover .btnmenu{
+  opacity: 0;
+  transition: 2s;
+}
+.btn{
+  border-style:none;
+  background: none;
+  display: inline-block;
+  margin:0 auto;
+}
+.btnmenu{
+  background: none;
+  padding: 0px;
+  margin: 0px;
+margin-right: 3vw;
+  display: inline-block;
+  font-size: 3vh;
+  float: right;
+  transition: 2s;
+  
+}
+.
+</style>
+<body>
+<header class="caja">
+  <p class="titulo">Coder<span class="comunicativos">hub</span></p>
+  <div class="menu">
+  <button class="btn">
+    Teoria
+  </button>
+  
+   <button class="btn">
+    ejemplo de codigo
+  </button> 
+     <button class="btn">
+   Aserca de mi
+  </button> 
+  <p class="btnmenu">?</p>
+  </div>
 </header>
+<main class="container">
+  <p class="titulo2">Introducción a HTML</p>
+  <h1 class="pregunta">¿ Que significa HTML ? Y ¿ que es HTML ?</h1>
+  <p class="texto">
+    HTML, que significa HyperText Markup Language (Lenguaje de Marcado de Hipertexto), es el lenguaje fundamental utilizado para crear páginas web. En esencia, HTML proporciona la estructura y el contenido básico de una página web. Funciona mediante el uso de etiquetas (tags) que rodean diferentes elementos en una página para indicar cómo deben ser mostrados en un navegador web.
+<br><br>
+Por ejemplo, la etiqueta &lt;html&gt; define el comienzo del documento HTML, mientras que &lt;/html&gt; marca el final. Las etiquetas &lt;head&gt; y &lt;/head&gt; contienen información de encabezado, como el título de la página, que se muestra en la pestaña del navegador. Mientras que las etiquetas &lt;body&gt; y &lt;/body&gt; rodean el contenido principal de la página que se mostrará en el navegador, como texto, imágenes y enlaces.
+<br><br>
+HTML utiliza una estructura jerárquica, lo que significa que los elementos pueden estar anidados dentro de otros. Además, se pueden utilizar atributos en las etiquetas para proporcionar información adicional sobre los elementos, como enlaces a otros sitios web o descripciones de imágenes.
+<br><br>
+En resumen, HTML es el lenguaje clave para crear páginas web al proporcionar la estructura y el marcado necesario para que los navegadores interpreten y muestren el contenido de manera adecuada. A medida que continúes aprendiendo desarrollo web, HTML será una base esencial para tus proyectos.
 
-    <div id="game-over" class="game-over">
-        <h1>Game Over</h1>
-        <button id="restart">Reiniciar</button>
-    </div>
-    <script>
-        const canvas = document.getElementById("snek");
-        const ctx = canvas.getContext("2d");
+  </p>
+</main>
 
-        const gridSize = 20;
-        let snek = [{ x: 10, y: 10 }];
-        let food = { x: 15, y: 15 };
-        let direction = "right";
+<main class="container">
+  <p class="titulo2">Introducción2 a HTML</p>
+  <h1 class="pregunta">¿ Que significa css ? y ¿ para que sirve ?</h1>
+  <p class="texto">
+    
+CSS, que significa Cascading Style Sheets (Hojas de Estilo en Cascada), es un lenguaje utilizado en el desarrollo web para dar estilo y formato a las páginas HTML. Su principal función es controlar la presentación visual de una página web, lo que incluye aspectos como el diseño, los colores, las fuentes, los márgenes y mucho más.
+<br><br>
+En resumen, CSS sirve para separar la estructura y el contenido de una página (HTML) de su apariencia visual, lo que permite un diseño más atractivo y consistente en toda la web.
+  </p>
+</main>
 
-        function drawSnek() {
-            ctx.fillStyle = "#00FF00";
-            for (let segment of snek) {
-                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
-            }
-        }
 
-        function drawFood() {
-            ctx.fillStyle = "#444";
-            
-            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
-        }
-
-        function moveSnek() {
-            let headX = snek[0].x;
-            let headY = snek[0].y;
-
-            if (direction === "right") {
-                headX++;
-            } else if (direction === "left") {
-                headX--;
-            } else if (direction === "up") {
-                headY--;
-            } else if (direction === "down") {
-                headY++;
-            }
-
-            let newHead = { x: headX, y: headY };
-            snek.unshift(newHead);
-
-            if (headX === food.x && headY === food.y) {
-                // Comió la comida, genera nueva comida
-                food = {
-                    x: Math.floor(Math.random() * (canvas.width / gridSize)),
-                    y: Math.floor(Math.random() * (canvas.height / gridSize))
-                };
-            } else {
-                // No comió la comida, elimina la cola
-                snek.pop();
-            }
-        }
-
-        function checkCollision() {
-            let headX = snek[0].x;
-            let headY = snek[0].y;
-
-            // Colisión con las paredes
-            if (headX < 0 || headX * gridSize >= canvas.width || headY < 0 || headY * gridSize >= canvas.height) {
-                return true;
-            }
-
-            // Colisión con el propio cuerpo
-            for (let i = 1; i < snek.length; i++) {
-                if (headX === snek[i].x && headY === snek[i].y) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        function changeDirection(event) {
-            if (event.key === "ArrowUp" && direction !== "down") {
-                direction = "up";
-            } else if (event.key === "ArrowDown" && direction !== "up") {
-                direction = "down";
-            } else if (event.key === "ArrowLeft" && direction !== "right") {
-                direction = "left";
-            } else if (event.key === "ArrowRight" && direction !== "left") {
-                direction = "right";
-            }
-        }
-
-        document.addEventListener("keydown", changeDirection);
-
-        // Controles táctiles
-        const upButton = document.getElementById("up");
-        const downButton = document.getElementById("down");
-        const leftButton = document.getElementById("left");
-        const rightButton = document.getElementById("right");
-        const juego = document.getElementById("juego");
-        const gameOver = document.getElementById("game-over");
-
-        upButton.addEventListener("click", () => {
-            if (direction !== "down") {
-                direction = "up";
-            }
-        });
-
-        downButton.addEventListener("click", () => {
-            if (direction !== "up") {
-                direction = "down";
-            }
-        });
-
-        leftButton.addEventListener("click", () => {
-            if (direction !== "right") {
-                direction = "left";
-            }
-        });
-
-        rightButton.addEventListener("click", () => {
-            if (direction !== "left") {
-                direction = "right";
-            }
-        });
-
-        function restartGame() {
-            // Reiniciar todas las variables del juego
-            snek = [{ x: 10, y: 10 }];
-            food = { x: 15, y: 15 };
-            direction = "right";
-            // Ocultar el mensaje de Game Over
-            gameOver.style.display = "none";
-            juego.style.display = "block";
-            // Volver a iniciar el bucle del juego
-            gameLoop();
-        }
-
-        const restartButton = document.getElementById("restart");
-        restartButton.addEventListener("click", restartGame);
-        
-
-        function gameLoop() {
-            if (!checkCollision()) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                drawSnek();
-                drawFood();
-                moveSnek();
-                setTimeout(function() {
-                    requestAnimationFrame(gameLoop);
-                }, 100); // Reduce este valor para aumentar la velocidad
-            } else {
-                // El jugador perdió, muestra el mensaje de Game Over
-                
-                gameOver.style.display = "block";
-                juego.style.display = "none";
-             
-             
-            }
-        }
-
-        gameLoop();
-    </script>
 </body>
 </html>
