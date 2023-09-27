@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snek Game</title>
+    <style>
+        body {
+            margin:0;
+            padding: 0px;
+            background-color: #444;
+        }
+        
+        canvas {
+            width: 95vw;
+            background-color: #000;
+            display: block;
+            margin: 2vw auto;
+            padding: 1vw;
+            border-radius: 2vh;
+        }
+
+        #controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            font-size: 7vw;
+            padding: 5vw 5vw;
+            margin: 0 auto;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5vw;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #up {
+            margin: 2vw auto;
+            display: block;
+        }
+        .game-over{
+          margin:auto;
+          margin-top:40vh;
+          display:non;
+          background:none;
+          width :95vw;
+          text-align:center;
+        }
+      #restart{
+        width:50vw;
+        height:5h;
+        padding:0px;
+        background:gray;
+        transition:2s;
+        animation: pulse 2s infinite;
+        
+      }
+      @keyframes pulse{
+        0%{
+          transition: 2s;
+          transform:scale(1.2) ;
+        }
+        50%{
+          transition: 2s;
+          
+          transform:scale(1.4) ;
+        }
+       100%{
+          transition: 2s;
+          transform:scale(1.2) ;
+          
+        } 
+      }
+      h1{
+        
+        color:red;
+      }
+      #juego{
+        display: none;
+      }
+    </style>
+</head>
+<body> 
+<header id="juego">
+      <canvas id="snek" width="400" height="400"></canvas>
+          <div id="controls">
+        <button id="up">↑</button>
+        <button id="left">←</button>
+        <button id="down">↓</button>
+        <button id="right">→</button>
+    </div>
+</header>
+
+    <div id="game-over" class="game-over">
+        <h1>Game Over</h1>
+        <button id="restart">Reiniciar</button>
+    </div>
+    <script>
+        const canvas = document.getElementById("snek");
+        const ctx = canvas.getContext("2d");
+
+        const gridSize = 20;
+        let snek = [{ x: 10, y: 10 }];
+        let food = { x: 15, y: 15 };
+        let direction = "right";
+
+        function drawSnek() {
+            ctx.fillStyle = "#00FF00";
+            for (let segment of snek) {
+                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+            }
+        }
+
+        function drawFood() {
+            ctx.fillStyle = "#444";
+            
+            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+        }
+
+        function moveSnek() {
+            let headX = snek[0].x;
+            let headY = snek[0].y;
+
+            if (direction === "right") {
+                headX++;
+            } else if (direction === "left") {
+                headX--;
+            } else if (direction === "up") {
+                headY--;
+            } else if (direction === "down") {
+                headY++;
+            }
+
+            let newHead = { x: headX, y: headY };
+            snek.unshift(newHead);
+
+            if (headX === food.x && headY === food.y) {
+                // Comió la comida, genera nueva comida
+                food = {
+                    x: Math.floor(Math.random() * (canvas.width / gridSize)),
+                    y: Math.floor(Math.random() * (canvas.height / gridSize))
+                };
+            } else {
+                // No comió la comida, elimina la cola
+                snek.pop();
+            }
+        }
+
+        function checkCollision() {
+            let headX = snek[0].x;
+            let headY = snek[0].y;
+
+            // Colisión con las paredes
+            if (headX < 0 || headX * gridSize >= canvas.width || headY < 0 || headY * gridSize >= canvas.height) {
+                return true;
+            }
+
+            // Colisión con el propio cuerpo
+            for (let i = 1; i < snek.length; i++) {
+                if (headX === snek[i].x && headY === snek[i].y) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        function changeDirection(event) {
+            if (event.key === "ArrowUp" && direction !== "down") {
+                direction = "up";
+            } else if (event.key === "ArrowDown" && direction !== "up") {
+                direction = "down";
+            } else if (event.key === "ArrowLeft" && direction !== "right") {
+                direction = "left";
+            } else if (event.key === "ArrowRight" && direction !== "left") {
+                direction = "right";
+            }
+        }
+
+        document.addEventListener("keydown", changeDirection);
+
+        // Controles táctiles
+        const upButton = document.getElementById("up");
+        const downButton = document.getElementById("down");
+        const leftButton = document.getElementById("left");
+        const rightButton = document.getElementById("right");
+        const juego = document.getElementById("juego");
+        const gameOver = document.getElementById("game-over");
+
+        upButton.addEventListener("click", () => {
+            if (direction !== "down") {
+                direction = "up";
+            }
+        });
+
+        downButton.addEventListener("click", () => {
+            if (direction !== "up") {
+                direction = "down";
+            }
+        });
+
+        leftButton.addEventListener("click", () => {
+            if (direction !== "right") {
+                direction = "left";
+            }
+        });
+
+        rightButton.addEventListener("click", () => {
+            if (direction !== "left") {
+                direction = "right";
+            }
+        });
+
+        function restartGame() {
+            // Reiniciar todas las variables del juego
+            snek = [{ x: 10, y: 10 }];
+            food = { x: 15, y: 15 };
+            direction = "right";
+            // Ocultar el mensaje de Game Over
+            gameOver.style.display = "none";
+            juego.style.display = "block";
+            // Volver a iniciar el bucle del juego
+            gameLoop();
+        }
+
+        const restartButton = document.getElementById("restart");
+        restartButton.addEventListener("click", restartGame);
+        
+
+        function gameLoop() {
+            if (!checkCollision()) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawSnek();
+                drawFood();
+                moveSnek();
+                setTimeout(function() {
+                    requestAnimationFrame(gameLoop);
+                }, 100); // Reduce este valor para aumentar la velocidad
+            } else {
+                // El jugador perdió, muestra el mensaje de Game Over
+                
+                gameOver.style.display = "block";
+                juego.style.display = "none";
+             
+             
+            }
+        }
+
+        gameLoop();
+    </script>
+</body>
+</html>
